@@ -2,7 +2,6 @@ import nimgl/[glfw, opengl, imgui]
 import nimgl/imgui/[impl_opengl, impl_glfw]
 import ui, cmd, globals
 
-
 template init =
   assert glfwInit()
   glfwWindowHint(GLFWDecorated, GLFWFalse)
