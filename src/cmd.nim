@@ -75,7 +75,7 @@ proc parseModules*: seq[Module] =
         of "url": m.url = lnSt[1].replace("(git)", "")
         of "description": m.descr = ln[1].strip()
         of "license": m.license = lnSt[1]
-    Log.add("Parsed module list")
+    Log.add("Load module list")
   else:
     Log.add("Failed to parse module list")
 
@@ -97,6 +97,6 @@ proc parseInstalled*: seq[InstalledModule] =
         if m.name == im.name:
           im.descr = m.descr
       result.add(im)
-    Log.add("Parsed installed module list")
+    Log.add("Load installed module list")
   else:
     Log.add("Failed to parse installed module list")
