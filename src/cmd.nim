@@ -81,7 +81,7 @@ proc parseInstalled*: seq[InstalledModule] =
   if exCode == 0:
     for l in lines:
       var im: InstalledModule
-      discard scanf(l, "$s$*  [$*]", im.name, im.version)
+      discard scanf(l, "$*  [$*]", im.name, im.version)
       for m in Modules:
         if m.name == im.name:
           im.descr = m.descr
