@@ -1,4 +1,5 @@
-import osproc, strutils
+import 
+  osproc, strscans
 import globals
 
 const
@@ -60,21 +61,12 @@ proc parseModules*: seq[Module] =
 
   if exCode == 0:
     for l in lines:
-      let 
-        ln = l.split(":", 1)
-        lnSt = l.replace(" ", "").split(":", 1)
-
-      if ln.len == 1:
-        if m.descr != "":
-          result.add(m)
+      discard scanf(l, "$w*:$.", m.name)
+      discard scanf(l, "$sdescription:$s$*$.", m.descr)
+      discard scanf(l, "$slicense:$s$*$.", m.license)
+      if scanf(l, "$swebsite:$s$*$.", m.url):
+        result.add(m)
         m = Module()
-      else:
-        if ln[1] == "":
-          m.name = ln[0]
-        case lnSt[0]:
-        of "url": m.url = lnSt[1].replace("(git)", "")
-        of "description": m.descr = ln[1].strip()
-        of "license": m.license = lnSt[1]
     Log.add("Load module list")
   else:
     Log.add("Failed to parse module list")
@@ -88,11 +80,8 @@ proc parseInstalled*: seq[InstalledModule] =
 
   if exCode == 0:
     for l in lines:
-      let ln = l.strip().split()
-      var im = InstalledModule(
-        name: ln[0], 
-        version: ln[2].multiReplace([("[", ""), ("]", "")])
-      )
+      var im: InstalledModule
+      discard scanf(l, "$s$*  [$*]", im.name, im.version)
       for m in Modules:
         if m.name == im.name:
           im.descr = m.descr
