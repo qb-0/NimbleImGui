@@ -78,16 +78,18 @@ proc uiInstalledModules* =
 
 proc uiModules* =
   var
-    filterTxt {.global.} = " "
+    filterBuf {.global.}: string
     selected {.global.} = -1
     selectedMod {.global.}: Module
     transparency {.global.}: float32 = 0.9
 
+  filterBuf.setLen(20)
   if igButton("Update"):
     updateModules()
     Modules = parseModules()
   igSameLine()
-  if igButton("Install") and selected != -1:
+  if igButton("Install") and selected != -1 or
+  igIsAnyItemHovered() and igIsMouseDoubleClicked(ImGuiMouseButton.Left):
     installModule(selectedMod.name)
     Installed = parseInstalled()
   igSameLine()
@@ -103,7 +105,7 @@ proc uiModules* =
   if igSliderFloat("##Transparency", transparency.addr, 0.1, 1.0, format="Transparency: %.1f"):
     setAlpha(transparency)
   igSetNextItemWidth(-1)
-  igInputText("##Filter", filterTxt, 50)
+  igInputText("Filter", filterBuf, 20)
   igSeparator()
   igColumns(3, "moduleheader", true)
   igSetColumnWidth(0, 150)
@@ -119,11 +121,10 @@ proc uiModules* =
   igColumns(3, "modulelist", true)
   igSetColumnWidth(0, 142)
   igSetColumnWidth(1, 125)
-  var filterStr = $filterTxt.cstring
   for i, m in Modules:
     var installed: bool
-    if filterStr.toLower() notin m.name.toLower() and 
-    filterStr.toLower() notin m.descr.toLower(): continue
+    if filterBuf.toLower() notin m.name.toLower() and 
+    filterBuf.toLower() notin m.descr.toLower(): continue
     for im in Installed:
       if im.name == m.name:
         igPushStyleColor(ImGuiCol.Text, installedColor)
