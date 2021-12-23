@@ -121,10 +121,11 @@ proc uiModules* =
   igColumns(3, "modulelist", true)
   igSetColumnWidth(0, 142)
   igSetColumnWidth(1, 125)
+  var filterStr = $cast[cstring](filterBuf[0].unsafeAddr)
   for i, m in Modules:
     var installed: bool
-    if filterBuf.toLower() notin m.name.toLower() and 
-    filterBuf.toLower() notin m.descr.toLower(): continue
+    if filterStr.toLower() notin m.name.toLower() and 
+    filterStr.toLower() notin m.descr.toLower(): continue
     for im in Installed:
       if im.name == m.name:
         igPushStyleColor(ImGuiCol.Text, installedColor)
