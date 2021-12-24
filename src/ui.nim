@@ -25,9 +25,9 @@ proc uiLog* =
   igPushStyleVar(ImguiStyleVar.ItemSpacing, ImVec2(x: 0, y: 1))
   if debug:
     for l in DebugLog:
-      igTextColored(debugColor, l.strip())
+      igTextColored(debugColor, l.strip().cstring)
   for l in Log:
-    igTextColored(installedColor, l)
+    igTextColored(installedColor, l.cstring)
   if autoscroll:
     igSetScrollHereY(1.0)
   igPopStyleVar()
@@ -64,15 +64,15 @@ proc uiInstalledModules* =
   igNextColumn()
   igSeparator()
   for i, m in Installed:
-    if igSelectable(m.name, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
+    if igSelectable(m.name.cstring, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
       selected = i
       selectedMod = m
     if igIsItemHovered() and igGetCurrentContext().hoveredIdTimer > 0.6:
       igBeginTooltip()
-      igTextUnformatted(m.descr)
+      igTextUnformatted(m.descr.cstring)
       igEndTooltip()
     igNextColumn()
-    igText(m.version)
+    igText(m.version.cstring)
     igNextColumn()
   igEndChild()
 
@@ -97,7 +97,7 @@ proc uiModules* =
     Log.add("Visiting " & selectedMod.url)
     openDefaultBrowser(selectedMod.url)
   igSameLine()
-  igText("Modules: " & $len(Modules))
+  igText(("Modules: " & $len(Modules)).cstring)
   igSameLine()
   igDummy(ImVec2(x: 200))
   igSameLine()
@@ -105,7 +105,7 @@ proc uiModules* =
   if igSliderFloat("##Transparency", transparency.addr, 0.1, 1.0, format="Transparency: %.1f"):
     setAlpha(transparency)
   igSetNextItemWidth(-1)
-  igInputText("Filter", filterBuf, 20)
+  igInputText("Filter", filterBuf.cstring, 20)
   igSeparator()
   igColumns(3, "moduleheader", true)
   igSetColumnWidth(0, 150)
@@ -130,13 +130,13 @@ proc uiModules* =
       if im.name == m.name:
         igPushStyleColor(ImGuiCol.Text, installedColor)
         installed = true
-    if igSelectable(m.name, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
+    if igSelectable(m.name.cstring, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
       selected = i
       selectedMod = m
     igNextColumn()
-    igText(m.license)
+    igText(m.license.cstring)
     igNextColumn()
-    igTextWrapped(m.descr)
+    igTextWrapped(m.descr.cstring)
     igNextColumn()
     if installed:
       igPopStyleColor()
