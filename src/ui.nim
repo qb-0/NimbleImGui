@@ -2,12 +2,15 @@ import strutils, browsers
 import nimgl/imgui
 import globals, cmd
 
-# converter flagToInt32(x: ImGuiWindowFlags): int32 = x.int32
-# converter int32ToFlag(x: int32): ImGuiWindowFlags = x.ImGuiWindowFlags
-
 const
   debugColor = ImVec4(y: 0.6, z: 1, w: 1)
   installedColor = ImVec4(y: 1, z: 0.2, w: 1)
+
+proc setAlpha*(v: float32) =
+  var style = igGetStyle()
+  for i, c in style.colors:
+    var vec = ImVec4(x: c.x, y: c.y, z: c.z, w: v)
+    style.colors[i] = vec
 
 proc uiLog* =
   var
@@ -32,12 +35,6 @@ proc uiLog* =
     igSetScrollHereY(1.0)
   igPopStyleVar()
   igEndChild()
-
-proc setAlpha*(v: float32) =
-  var style = igGetStyle()
-  for i, c in style.colors:
-    var vec = ImVec4(x: c.x, y: c.y, z: c.z, w: v)
-    style.colors[i] = vec
 
 proc uiInstalledModules* =
   var
