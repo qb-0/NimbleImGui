@@ -2,6 +2,9 @@ import strutils, browsers
 import nimgl/imgui
 import globals, cmd
 
+converter ftInt(x: ImGuiTableFlags): int32 = x.int32
+converter itFlag(x: int32): ImGuiTableFlags = x.ImGuiTableFlags
+
 const
   debugColor = ImVec4(y: 0.6, z: 1, w: 1)
   installedColor = ImVec4(y: 1, z: 0.2, w: 1)
@@ -108,7 +111,7 @@ proc uiModules* =
   igSetColumnWidth(0, 150)
   igText("Name")
   igNextColumn()
-  igSetColumnWidth(1, 125)
+  igSetColumnWidth(1, 150)
   igText("License") 
   igNextColumn()
   igText("Description")
@@ -116,8 +119,8 @@ proc uiModules* =
   igEndColumns()
   igBeginChild("modules", flags=ImGuiWindowFlags.NoBackground)
   igColumns(3, "modulelist", true)
-  igSetColumnWidth(0, 142)
-  igSetColumnWidth(1, 125)
+  igSetColumnWidth(0, 150)
+  igSetColumnWidth(1, 150)
   var filterStr = $cast[cstring](filterBuf[0].unsafeAddr)
   for i, m in Modules:
     var installed: bool
