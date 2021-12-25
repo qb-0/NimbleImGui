@@ -1,11 +1,12 @@
 # Package
 
 version       = "0.1.0"
-author        = "Meow"
+author        = "qb"
 description   = "ImGui Frontend for Nimble"
 license       = "MIT"
 srcDir        = "src"
 bin           = @["NimbleImGui"]
+backend       = "cpp"
 
 
 # Dependencies
