@@ -1,6 +1,5 @@
 import 
-  osproc, strscans
-import globals
+  osproc, strscans, globals
 
 const
   base = "nimble"
@@ -18,7 +17,7 @@ proc updateModules* =
     p = startProcess(base, "", cmds.update, options=opts)
     (lines, exCode) = p.readLines()
   
-  DebugLog.add(lines)
+  NimbleLog.add(lines)
 
   if exCode == 0: 
     Log.add("Successfully updated modules") 
@@ -31,7 +30,7 @@ proc installModule*(m: string) =
     p = startProcess(base, "", cmds.install & m, options=opts)
     (lines, exCode) = p.readLines()
 
-  DebugLog.add(lines)
+  NimbleLog.add(lines)
 
   if exCode == 0: 
     Log.add("Successfully (re)installed " & m) 
@@ -44,7 +43,7 @@ proc uninstallModule*(m: string) =
     p = startProcess(base, "", cmds.uninstall & m, options=opts)
     (lines, exCode) = p.readLines()
 
-  DebugLog.add(lines)
+  NimbleLog.add(lines)
 
   if exCode == 0: 
     Log.add("Successfully uninstalled " & m)
@@ -57,14 +56,15 @@ proc parseModules*: seq[Module] =
     (lines, exCode) = p.readLines()
     m: Module
 
-  DebugLog.add(lines)
+  NimbleLog.add(lines)
 
   if exCode == 0:
     for l in lines:
       discard scanf(l, "$w*:$.", m.name)
+      discard scanf(l, "$surl:$s$* ", m.url)
       discard scanf(l, "$sdescription:$s$*$.", m.descr)
       discard scanf(l, "$slicense:$s$*$.", m.license)
-      if scanf(l, "$swebsite:$s$*$.", m.url):
+      if scanf(l, "$swebsite:$s$*$.", m.website):
         result.add(m)
         m = Module()
     Log.add("Load module list")
@@ -76,7 +76,7 @@ proc parseInstalled*: seq[InstalledModule] =
     p = startProcess(base, "", cmds.installed, options=opts)
     (lines, exCode) = p.readLines()
 
-  DebugLog.add(lines)
+  NimbleLog.add(lines)
 
   if exCode == 0:
     for l in lines:

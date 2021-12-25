@@ -16,7 +16,7 @@ proc uiLog* =
 
   if igButton("Clear"):
     Log.setLen(0)
-    DebugLog.setLen(0)
+    NimbleLog.setLen(0)
   igSameLine()
   igCheckBox("Autoscroll", autoscroll.addr)
   igSameLine()
@@ -24,7 +24,7 @@ proc uiLog* =
   igBeginChild("scrolling", flags=ImGuiWindowFlags.NoBackground)
   igPushStyleVar(ImguiStyleVar.ItemSpacing, ImVec2(x: 0, y: 1))
   if debug:
-    for l in DebugLog:
+    for l in NimbleLog:
       igTextColored(debugColor, l.strip().cstring)
   for l in Log:
     igTextColored(installedColor, l.cstring)
