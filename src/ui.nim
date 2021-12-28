@@ -2,9 +2,6 @@ import strutils, browsers
 import nimgl/imgui
 import globals, cmd
 
-converter ftInt(x: ImGuiTableFlags): int32 = x.int32
-converter itFlag(x: int32): ImGuiTableFlags = x.ImGuiTableFlags
-
 const
   debugColor = ImVec4(y: 0.6, z: 1, w: 1)
   installedColor = ImVec4(y: 1, z: 0.2, w: 1)
