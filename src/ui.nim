@@ -64,7 +64,7 @@ proc uiInstalledModules* =
     if igSelectable(m.name.cstring, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
       selected = i
       selectedMod = m
-    if igIsItemHovered() and igGetCurrentContext().hoveredIdTimer > 0.6:
+    if igIsItemHovered() and igGetCurrentContext().hoveredIdTimer > 0.3:
       igBeginTooltip()
       igTextUnformatted(m.descr.cstring)
       igEndTooltip()
