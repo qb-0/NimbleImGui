@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "1.0.0"
 author        = "qb"
 description   = "ImGui Frontend for Nimble"
 license       = "MIT"
