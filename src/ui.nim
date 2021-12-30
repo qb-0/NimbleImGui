@@ -53,7 +53,7 @@ proc uiInstalledModules* =
     Installed = parseInstalled()
   igBeginChild("installed", flags = ImGuiWindowFlags.NoBackground)
   igSeparator()
-  igColumns(2, "modulelist", true)
+  igColumns(2, "modulelist", false)
   igSetColumnWidth(0, 200)
   igText("Name")
   igNextColumn()
@@ -81,7 +81,7 @@ proc uiModules* =
     transparency {.global.}: float32 = 0.9
 
   filterBuf.setLen(20)
-  if igButton("Update"):
+  if igButton("Refresh"):
     updateModules()
     Modules = parseModules()
   igSameLine()
@@ -96,15 +96,16 @@ proc uiModules* =
   igSameLine()
   igText(("Modules: " & $len(Modules)).cstring)
   igSameLine()
-  igDummy(ImVec2(x: 200))
+  igDummy(ImVec2(x: 500))
   igSameLine()
   igSetNextItemWidth(-1)
   if igSliderFloat("##Transparency", transparency.addr, 0.1, 1.0, format="Transparency: %.1f"):
     setAlpha(transparency)
   igSetNextItemWidth(-1)
-  igInputText("Filter", filterBuf.cstring, 20)
+  if igInputText("Filter", filterBuf.cstring, 20):
+    selected = -1
   igSeparator()
-  igColumns(3, "moduleheader", true)
+  igColumns(3, "moduleheader", false)
   igSetColumnWidth(0, 150)
   igText("Name")
   igNextColumn()
@@ -115,7 +116,7 @@ proc uiModules* =
   igSeparator()
   igEndColumns()
   igBeginChild("modules", flags=ImGuiWindowFlags.NoBackground)
-  igColumns(3, "modulelist", true)
+  igColumns(3, "modulelist", false)
   igSetColumnWidth(0, 150)
   igSetColumnWidth(1, 150)
   var filterStr = $cast[cstring](filterBuf[0].unsafeAddr)
@@ -130,6 +131,20 @@ proc uiModules* =
     if igSelectable(m.name.cstring, selected == i, flags = ImGuiSelectableFlags.SpanAllColumns):
       selected = i
       selectedMod = m
+    if selected != -1 and igBeginPopupContextItem():
+      if installed:
+        igPopStyleColor()
+      igText(selectedMod.name.cstring)
+      igSeparator()
+      if igButton("Install"):
+        installModule(selectedMod.name)
+        Installed = parseInstalled()
+      igSameLine()
+      if igButton("Website"):
+        openDefaultBrowser(selectedMod.url)
+      igEndPopup()
+      if installed:
+        igPushStyleColor(ImGuiCol.Text, installedColor)
     igNextColumn()
     igText(m.license.cstring)
     igNextColumn()
