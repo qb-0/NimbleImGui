@@ -3,7 +3,7 @@ import nimgl/imgui/[impl_opengl, impl_glfw]
 import ui, cmd, globals
 
 template init =
-  assert glfwInit()
+  doAssert glfwInit()
   glfwWindowHint(GLFWDecorated, GLFWFalse)
   glfwWindowHint(GLFWResizable, GLFWFalse)
   glfwWindowHint(GLFWTransparentFramebuffer, GLFWTrue)
