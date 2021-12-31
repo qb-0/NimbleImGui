@@ -14,10 +14,10 @@ template init =
     icon=false, title="Nimble ImGui"
   )
   GlfwWin.makeContextCurrent()
-  assert glInit()
+  doAssert glInit()
   igCreateContext()
-  assert igGlfwInitForOpenGL(GLFWWin, true)
-  assert igOpenGL3Init()
+  doAssert igGlfwInitForOpenGL(GLFWWin, true)
+  doAssert igOpenGL3Init()
   Modules = parseModules()
   Installed = parseInstalled()
   setStyle()
