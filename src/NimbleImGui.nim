@@ -62,7 +62,7 @@ proc main =
   init()
   while not GLFWWin.windowShouldClose():
     glfwPollEvents()
-    glClearColor(0.0, 0.0, 0.0, 0.0)
+    glClear(GL_COLOR_BUFFER_BIT)
     uiLoop()
     GLFWWin.swapBuffers()
 
