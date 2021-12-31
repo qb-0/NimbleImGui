@@ -1,8 +1,21 @@
-import nimgl/[glfw, opengl, imgui]
-import nimgl/imgui/[impl_opengl, impl_glfw]
-import ui, cmd, globals
+import
+  os,
+  nimgl/[glfw, opengl, imgui],
+  nimgl/imgui/[impl_opengl, impl_glfw],
+  ui, cmd, globals
+
+const
+  uiConfigName = "imgui.ini" 
+  uiConfig = staticRead(uiConfigName)
+
+template checkConfig =
+  if not fileExists(uiConfigName):
+    var f = open(uiConfigName, fmWrite)
+    f.write(uiConfig)
+    f.close()
 
 template init =
+  checkConfig()
   doAssert glfwInit()
   glfwWindowHint(GLFWDecorated, GLFWFalse)
   glfwWindowHint(GLFWResizable, GLFWFalse)

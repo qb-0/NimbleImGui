@@ -5,7 +5,6 @@ author        = "qb"
 description   = "ImGui Frontend for Nimble"
 license       = "MIT"
 srcDir        = "src"
-installFiles  = @["imgui.ini"]
 bin           = @["NimbleImGui"]
 backend       = "cpp"
 
