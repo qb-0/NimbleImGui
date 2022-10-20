@@ -20,8 +20,6 @@ template init =
   glfwWindowHint(GLFWDecorated, GLFWFalse)
   glfwWindowHint(GLFWResizable, GLFWFalse)
   glfwWindowHint(GLFWTransparentFramebuffer, GLFWTrue)
-  glfwWindowHint(GLFWOpenglProfile, GLFWOpenglCoreProfile)
-  glfwWindowHint(GLFWOpenglForwardCompat, GLFWTrue)
   GLFWWin = glfwCreateWindow(
     getVideoMode(glfwGetPrimaryMonitor()).width - 1,
     getVideoMode(glfwGetPrimaryMonitor()).height - 1,
