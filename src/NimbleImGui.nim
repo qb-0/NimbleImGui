@@ -1,3 +1,6 @@
+{.passc: "-static-libgcc -static-libstdc++".}
+{.passl: "-static-libgcc -static-libstdc++".}
+
 import
   os,
   nimgl/[glfw, opengl, imgui],
