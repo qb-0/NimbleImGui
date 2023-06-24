@@ -1,5 +1,5 @@
-{.passc: "-static-libgcc -static-libstdc++".}
-{.passl: "-static-libgcc -static-libstdc++".}
+{.passc: "-s -static-libgcc -static-libstdc++".}
+{.passl: "-s -static-libgcc -static-libstdc++".}
 
 import
   os,
